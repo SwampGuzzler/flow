@@ -134,4 +134,38 @@ window.onload = function() {
   operators with compatible types.</div>
 <div>Flow can find null references<br>
 Like eslint, Flow identifies missing variables that would cause ReferenceErrors. </div>
-<div>we233lcome to <em>Big</em></div>
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+<pre><code class='js'>// javascript often
+// implicitly converts
+// types
+
+> 'number ' + 5
+'number 5'
+> 5 == '5'
+true</code></pre>
+</div>
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+<pre><code class='js'>
+
+  /* @flow */ --> Include Flow in this file
+import {modalActions} from 'actions/ModalActions';
+import React, {
+  Component
+} from 'react';
+
+export default class CalendarWrapper extends Component {
+  displayName: CalendarWrapper;
+
+	props: {
+    children?: any
+  };
+
+  close:any = ():void => {
+    modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
+    mapActions.setCalendar('');
+  };
+
+  render() {
+
+</code></pre>
+</div>
