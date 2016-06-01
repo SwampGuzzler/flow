@@ -2,6 +2,12 @@
 
 [flowtype.org](http://flowtype.org/)
 
+[Intro](https://code.facebook.com/posts/1505962329687926/flow-a-new-static-type-checker-for-javascript/)
+
+http://www.macwright.org/presentations/flow/
+
+http://www.macwright.org/2016/01/05/flow-in-mapbox-studio.html
+
 
 https://atom.io/packages/linter-flow
 
