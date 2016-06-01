@@ -123,17 +123,23 @@ window.onload = function() {
   go(big.current);
 };
 </script></head><body>
-<div>welcome to <em>Big</em></div>
+<div><em>Flow</em> - a static type checker for JS</div>
 <div class='slide pad-1'>
   <em>Static Analysis</em>
-  Making judgments about source code and its behavior
+--> Making judgments about source code and its behavior
   without actually running the source code.
 </div>
+
 <div><em>Type Checking</em><br><br>
   Confirms that you provide the right arguments and use
   operators with compatible types.</div>
-<div>Flow can find null references<br>
+
+<div><em>Early error checking</em> helps you avoid certain kinds of runtime failures
+  </div>
+
+<div>
 Like eslint, Flow identifies missing variables that would cause ReferenceErrors. </div>
+<div>However, Flow can also find null references</div>
 <div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
 <pre><code class='js'>// javascript often
 // implicitly converts
@@ -156,16 +162,15 @@ import React, {
 export default class CalendarWrapper extends Component {
   displayName: CalendarWrapper;
 
-	props: {
+  props: {
     children?: any
   };
 
   close:any = ():void => {
     modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
-    mapActions.setCalendar('');
   };
 
-  render() {
+  render() { ...
 
 </code></pre>
 </div>
