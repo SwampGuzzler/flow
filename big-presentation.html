@@ -130,47 +130,166 @@ window.onload = function() {
   without actually running the source code.
 </div>
 
+<div>A language is statically typed if the type of a variable is known at compile time. </div>
+<div>The underlying the design of Flow is the assumption that most JavaScript code is implicitly statically typed...</div>
+<div>Even though types may not appear anywhere in the code, they are in the developer’s mind as a way to reason about the correctness of the code.</div>
+<div>Flow infers those types automatically</div>
+
+<div>Flow is <em>opt-in!</em> You choose which files you analyze</div>
+
 <div><em>Type Checking</em><br><br>
   Confirms that you provide the right arguments and use
   operators with compatible types.</div>
 
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+  <pre>
+    <code class='js'>// javascript often
+    // implicitly converts
+    // types
+
+    > 'number ' + 5
+    'number 5'
+    > 5 == '5'
+    true</code>
+  </pre>
+</div>
+
 <div><em>Early error checking</em> helps you avoid certain kinds of runtime failures
   </div>
 
-<div>
-Like eslint, Flow identifies missing variables that would cause ReferenceErrors. </div>
-<div>However, Flow can also find null references</div>
-<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
-<pre><code class='js'>// javascript often
-// implicitly converts
-// types
+<div>Syntax Errors (where is that matching bracket?) - ESLint</div>
+<div>ReferenceErrors (what the hell is 'name'?) - ESLint & Flow</div>
+<div>TypeErrors (that string doesn't have a 'zoomTo' method...) - Flow</div>
 
-> 'number ' + 5
-'number 5'
-> 5 == '5'
-true</code></pre>
-</div>
+<div><code>
+  function(
+  <br>
+      //nahh
+    <br>
+  });
+  <br>
+^
+ParsingError: unexpcted token</code></div>
+
+<div><code>  var b = a;<br>
+    ^
+ReferenceError: a is not defined</code></div>
+
 <div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
 <pre><code class='js'>
-
+  // TypeError
   /* @flow */ --> Include Flow in this file
-import {modalActions} from 'actions/ModalActions';
-import React, {
-  Component
-} from 'react';
 
-export default class CalendarWrapper extends Component {
-  displayName: CalendarWrapper;
-
-  props: {
-    children?: any
-  };
-
-  close:any = ():void => {
-    modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
-  };
-
-  render() { ...
+  var person = { name: 'Lucas' };
+  console.log(person.title);
 
 </code></pre>
+</div>
+
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+<pre><code class='js'>
+  /* @flow */ --> Include Flow in this file
+
+  var person = { name: 'Lucas' };
+  console.log(person.title);
+
+  console.log(person.title);
+ ^^ property `title`. Property not found in object literal
+
+</code></pre>
+</div>
+
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+<pre><code class='js'>
+function onlyWorksOnNumbers(x) {
+  return x * 10;
+}
+onlyWorksOnNumbers(‘Hello, world!’);
+</code></pre>
+</div>
+
+<div>The <em>Rule of Repair</em>: When you must fail, fail noisily and as soon as possible.</div>
+
+<div>Essentially, we just want to get errors moved farther up the error timeline.</div>
+
+<div class="slide pad-1">
+  Flow catches:
+  <ul>
+    <li>implicit typecasts</li>
+    <br>
+    <li>referencing null properties</li>
+    <br>
+    <li>ReferenceErrors</li>
+    <br>
+    <li>calling functions with bad arguments</li>
+    <br>
+    <li>unsafe access to props</li>
+    <br>
+    <li>A couple more things I don't understand</li>
+  </ul>
+</div>
+
+<div data-bodyclass='dark' class='slide w-100 pad-05 hljs'>
+<pre><code class='js'>/* @flow */
+// implicit typecasts
+var casted = 'hello ' * 5
+
+-------------
+
+test.js:3
+3: var casted = 'hello' * 5;
+                ^^^^^^^ string. This type
+                is incompatible with
+3: var casted = 'hello' * 5;
+                ^^^^^^^^^^^ number
+</code></pre></div>
+
+<div data-bodyclass='dark' class='slide pad-05 hljs'>
+<pre><code class='js'>/* @flow */
+// bad arguments
+function timesTwo(x: number): number {
+  return x * 2
+}
+
+var casted = timesTwo('hello')
+-------------
+
+test.js:7
+7: var casted = timesTwo('hello');
+                ^^^^^^^^^^^^^^^^^ function call
+
+7: var casted = timesTwo('hello');
+                         ^^^^^^^ string. This type is
+                         incompatible with
+3: function timesTwo(x: number): number {
+                        ^^^^^^ number
+</code></pre></div>
+
+
+<div class='slide pad-1'>
+<em>Unsafe access to props in React</em>
+This one's pretty crazy
+</div>
+
+<div class='slide pad-1'>
+  <em>PropTypes are runtime typechecking for React component
+  props.</em> In development mode, they cause an incorrect
+  or missing prop to show a warning.
+</div>
+
+<div class='slide pad-1'>
+  <em>(Robby, talk about proptype benefits)</em>
+</div>
+
+<div class="slide pad-1">
+  <em>Flow problems</em>
+  <ul>
+    <li>Per-project setup - More overhead</li>
+    <br>
+    <li>Multiple updates per Flow rule</li>
+    <br>
+    <li>Confusing error messages</li>
+    <br>
+    <li>Incompatible with Flux..?</li>
+  </ul>
 </div>
